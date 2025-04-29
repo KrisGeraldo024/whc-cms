@@ -208,31 +208,27 @@ export const useSidebarStore = defineStore('sidebar', {
                                 },
                                 {
                                     name: 'Purpose',
-                                    slug: '/taxonomies/categories/property-statuses',
+                                    slug: '/taxonomies/categories/purpose',
                                 },
                                 {
                                     name: 'Sizes',
-                                    slug: '/taxonomies/categories/property-statuses',
+                                    slug: '/taxonomies/categories/size',
                                 },
                                 {
                                     name: 'Finish',
-                                    slug: '/taxonomies/categories/property-statuses',
-                                },
-                                {
-                                    name: 'Shade & Tone',
-                                    slug: '/taxonomies/categories/property-statuses',
+                                    slug: '/taxonomies/categories/finish',
                                 },
                                 {
                                     name: 'Features',
-                                    slug: '/taxonomies/categories/property-statuses',
+                                    slug: '/taxonomies/categories/features',
                                 },
                                 {
                                     name: 'Color',
-                                    slug: '/taxonomies/categories/property-statuses',
+                                    slug: '/taxonomies/categories/color',
                                 },
                                 {
                                     name: 'Application',
-                                    slug: '/taxonomies/categories/property-statuses',
+                                    slug: '/taxonomies/categories/application',
                                 },
                             ],
                         },
