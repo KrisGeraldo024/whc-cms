@@ -200,7 +200,7 @@ export const useSidebarStore = defineStore('sidebar', {
                                 },
                                 {
                                     name: 'Materials',
-                                    slug: '/taxonomies/categories/property-locations',
+                                    slug: '/taxonomies/categories/material',
                                 },
                                 {
                                     name: 'Types',
