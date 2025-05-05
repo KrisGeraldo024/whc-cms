@@ -2,43 +2,110 @@
     <div class="relative w-full p-[16px] bg-offwhite flex flex-col gap-[16px] overflow-y-auto mb-[32px]">
         <Form id="form" @submit="submit()" @invalid-submit="onInvalidSubmit" class="w-full gap-[16px] flex flex-col">
             <div class="bg-white p-[16px] flex flex-col gap-[16px] rounded-[10px] w-full">
-                <h2 class="font-semibold text-xl text-start w-full">{{ `Community Information` }}</h2>
+                <h2 class="font-semibold text-xl text-start w-full">{{ `Tile Information` }}</h2>
                 <div class="grid grid-cols-2 gap-[16px]">
                     <TextField
-                    label="Community Name"
+                    label="Product Code"
                     name="title"
-                    placeholder="e.g. Community ABC"
-                    :rules="'required|max:50'"
-                    optionalMessage="Max 50 characters"
+                    placeholder="e.g. A12345"
+                    :rules="'required|max:20'"
+                    optionalMessage="Max 20 characters"
                         :hasErrors="hasErrors" />
 
-                    <SelectField v-if="locations"
+         
+
+                    <TextField
+                    label="Series"
+                    name="address"
+                    placeholder="e.g. Montes"
+                    :rules="'required|max:20'"
+                    optionalMessage="Max 20 characters" 
+                    :hasErrors="hasErrors" />
+
+                    <!-- <SelectField v-if="locations"
                     label="Location"
                     name="location_id"
                     placeholder="Choose a Location"
                     :options="locations"
                     rules="required"
+                    :hasErrors="hasErrors" /> -->
+
+                    <SelectField v-if="brands"
+                    label="Brand"
+                    name="brand_id"
+                    placeholder="Choose Brand"
+                    :options="brands"
+                    rules="required"
                     :hasErrors="hasErrors" />
 
-                    <TextField
-                    label="Community Address"
-                    name="address"
-                    placeholder="e.g. Community ABC address"
-                    :rules="'required|max:100'"
-                    optionalMessage="" 
+                    <SelectField v-if="types"
+                    label="Type"
+                    name="type_id"
+                    placeholder="Choose Type"
+                    :options="types"
+                    rules="required"
                     :hasErrors="hasErrors" />
 
+                    <SelectField v-if="purposes"
+                    label="Purpose"
+                    name="purpose_id"
+                    placeholder="Choose Purpose"
+                    :options="purposes"
+                    rules="required"
+                    :hasErrors="hasErrors" />
+
+                    <SelectField v-if="sizes"
+                    label="Size"
+                    name="size_id"
+                    placeholder="Choose Size"
+                    :options="sizes"
+                    rules="required"
+                    multiple
+                    :hasErrors="hasErrors" />
+
+                    <SelectField v-if="finishes"
+                    label="Finish"
+                    name="finish_id"
+                    placeholder="Choose Finish"
+                    :options="finishes"
+                    rules="required"
+                    :hasErrors="hasErrors" />
+
+                    <SelectField v-if="features"
+                    label="Features"
+                    name="feature_id"
+                    placeholder="Choose Finish"
+                    :options="features"
+                    rules="required"
+                    :hasErrors="hasErrors" />
+
+                    <SelectField v-if="colors"
+                    label="Colors"
+                    name="color_id"
+                    placeholder="Choose Color"
+                    :options="colors"
+                    rules="required"
+                    :hasErrors="hasErrors" />
+
+                    <SelectField v-if="applications"
+                    label="Application"
+                    name="application_id"
+                    placeholder="Choose Application"
+                    :options="applications"
+                    rules="required"
+                    :hasErrors="hasErrors" />
+<!-- 
                     <TextField
                     label="Google Maps URL"
                     name="gmap_url"
                     placeholder="Paste Google Maps Link"
                     :rules="'required'"
                     optionalMessage="PLease paste the Google Maps link here."
-                    :hasErrors="hasErrors"  />
+                    :hasErrors="hasErrors"  /> -->
 
                    
                 </div>
-                <div class="grid gap-[16px]" :class='{"grid-cols-3" : propertyType === "condominiums", "grid-cols-2" : propertyType === "house-and-lots"}'>
+                <!-- <div class="grid gap-[16px]" :class='{"grid-cols-3" : propertyType === "condominiums", "grid-cols-2" : propertyType === "house-and-lots"}'>
                         <TextField v-if="propertyType === 'condominiums'"
                         label="No. of Towers"
                         name="towers"
@@ -63,14 +130,14 @@
                         :rules="'required|max:50'"
                         optionalMessage="Separate with a comma (,)" 
                         :hasErrors="hasErrors" />
-                    </div>
+                    </div> -->
                 
                 <hr class="h-[1px] w-full border-gray">
 
                 <!-- <div class="bg-white p-[16px] flex flex-col gap-[16px] rounded-[10px] w-full"> -->
-                    <!-- <h2 class="font-semibold text-xl text-start w-full">{{`Main Community Banner Image`}}</h2> -->
+                    <!-- <h2 class="font-semibold text-xl text-start w-full">{{`Main Tile Banner Image`}}</h2> -->
                     <ImageHandler 
-                        label="Main Community Banner Image" 
+                        label="Main Tile Banner Image" 
                         ref="imageHandler0"
                         :max="'1'"
                         :dimension="{width: 1280, height: 728}"
@@ -91,18 +158,18 @@
 
                 <hr class="h-[1px] w-full border-gray">
 
-                <Quill v-if="isClient" v-model="formData.description" :modelValue="formData.description" :name="`description`" :label="`Short Community Summary`" 
+                <Quill v-if="isClient" v-model="formData.description" :modelValue="formData.description" :name="`description`" :label="`Entry Description`" 
                 :max="2500" :placeholder="`Enter your description here...`"/>
             </div>
             <div class="bg-white p-[16px] flex flex-col gap-[16px] rounded-[10px] w-full">
                 <h2 class="font-semibold text-xl text-start w-full">Video Walkthrough (Optional)</h2>
-                <TextField
+                <!-- <TextField
                     label="Youtube URL"
                     name="yt_url"
                     placeholder="Paste YouTube Link"
                     :rules="'https'"
                     optionalMessage="Please paste the YouTube link of your video here." 
-                        :hasErrors="hasErrors" />
+                        :hasErrors="hasErrors" /> -->
                 <hr class="h-[1px] w-full border-gray">
                 <ImageHandler 
                     label="Upload an image thumbnail" 
@@ -119,15 +186,15 @@
                     @update:file="handleFileUpdate('thumbnail', $event)"
                 />
                 <hr class="h-[1px] w-full border-gray">
-                <TextField
+                <!-- <TextField
                     label="Video Walkthrough Header Copy"
                     name="yt_title"
-                    placeholder="e.g. See what’s around Community ABC"
+                    placeholder="e.g. See what’s around Tile ABC"
                     :rules="'max:100'"
                     optionalMessage="(Optional) Max 100 characters" 
-                        :hasErrors="hasErrors" />
+                        :hasErrors="hasErrors" /> -->
             </div>
-            <div class="bg-white p-[16px] flex flex-col gap-[16px] rounded-[10px] w-full">
+            <!-- <div class="bg-white p-[16px] flex flex-col gap-[16px] rounded-[10px] w-full">
                 <h2 class="font-semibold text-xl text-start w-full">Vicinity Map</h2>
                 <ImageHandler 
                     label="Upload an image" 
@@ -149,26 +216,25 @@
                 <TextField
                     label="Vicinity Map Header Copy (Optional)"
                     name="vicinity_title"
-                    placeholder="e.g. See what’s around Community ABC"
+                    placeholder="e.g. See what’s around Tile ABC"
                     :rules="'max:50'"
                     optionalMessage="Max 50 characters" 
                         :hasErrors="hasErrors" />
-            </div>
+            </div> -->
             <div class="bg-white p-[16px] flex flex-col gap-[16px] rounded-[10px] w-full">
                 <h2 class="font-semibold text-xl text-start w-full">Units List</h2>
                 <TextField
                     label="Units List Header Copy (Optional)"
                     name="unit_list_title"
-                    placeholder="e.g. See what’s around Community ABC"
+                    placeholder="e.g. See what’s around Tile ABC"
                     :rules="'max:50'"
                     optionalMessage="Max 50 characters" 
                         :hasErrors="hasErrors" />
                 <!-- <HowToAdd :title="`Units`" :link="`/properties/${propertyType}/units`"/> -->
             </div>
-            <div class="bg-white p-[16px] flex flex-col gap-[16px] rounded-[10px] w-full">
+            <!-- <div class="bg-white p-[16px] flex flex-col gap-[16px] rounded-[10px] w-full">
                 <h2 class="font-semibold text-xl text-start w-full">{{ `${formattedTitle} Features` }} <span class="text-base font-normal text-black/40">Minimum of 3 </span></h2>
                 <div class="flex flex-row justify-between items-center w-full">
-                    <!-- <Draggable /> -->
                     <button @click="addFeature()" type="button" class="p-[16px] border border-ui-color/20 rounded-[10px] flex items-center gap-[4px] text-ui-color text-base font-medium">
                         <span class="w-[21px] h-[21px]">
                             <svg xmlns="http://www.w3.org/2000/svg" width="21" height="22" viewBox="0 0 21 22" fill="none">
@@ -241,7 +307,7 @@
                         Add Another Feature
                     </button>
                 </div>
-            </div>
+            </div> -->
             <div class="bg-white p-[16px] flex flex-col gap-[16px] rounded-[10px] w-full">
                 <h2 class="font-semibold text-xl text-start w-full">Amenities Gallery</h2>
                 <TextField
@@ -268,7 +334,7 @@
                 />
                 <!-- <HowToAdd :title="`Amenities`" :link="`/properties/${propertyType}/${id}/amenities`"/> -->
             </div>
-            <div class="bg-white p-[16px] flex flex-col gap-[16px] rounded-[10px] w-full">
+            <!-- <div class="bg-white p-[16px] flex flex-col gap-[16px] rounded-[10px] w-full">
                 <h2 class="font-semibold text-xl text-start w-full">Digital Brochure Banner (Optional)</h2>
                 <TextField
                 label="Digital Brochure Header Copy"
@@ -296,9 +362,9 @@
                 />
                 <div class="bg-white p-[16px] flex flex-col gap-[16px] rounded-[10px] w-full">
                     <h2 class="font-semibold text-xl text-start w-full">Banner Button</h2>
-                    <div class="flex flex-col gap-[8px]">
+                    <div class="flex flex-col gap-[8px]"> -->
                         <!-- <h3 class="font-normal text-base text-ui-color">Has Button <span class="text-sm font-normal text-black/40">This banner will have 2 CTA Button</span></h3> -->
-                        <h3 class="font-normal text-base text-ui-color">Has Button</h3>
+                        <!-- <h3 class="font-normal text-base text-ui-color">Has Button</h3>
                         <div class="pr-[16px] py-[12px] justify-start gap-[8px] flex">
                             <div @click="formData.digital_brochure.has_button = !formData.digital_brochure.has_button" class="cursor-pointer w-[40px] h-[24px] rounded-[12px] flex  items-center hover:border hover:border-black p-[3px]" 
                             :class="{'bg-ui-color justify-end' : formData.digital_brochure.has_button, 'bg-light-gray justify-start' : !formData.digital_brochure.has_button}">
@@ -306,14 +372,14 @@
                             </div>
                             {{ formData.digital_brochure.has_button ? 'Yes' : 'No' }}
                         </div>
-                    </div>
+                    </div> -->
                     <!-- <div v-for="(button, index) in formData.buttons" :key="index" class=""> -->
-                        <Button v-if="formData.digital_brochure.has_button" :name="`digital_brochure`" :button="formData.digital_brochure"/>
+                        <!-- <Button v-if="formData.digital_brochure.has_button" :name="`digital_brochure`" :button="formData.digital_brochure"/> -->
                     <!-- </div> -->
-                </div>
-            </div>
+                <!-- </div>
+            </div> -->
             <div class="bg-white p-[16px] flex flex-col gap-[16px] rounded-[10px] w-full">
-                <h2 class="font-semibold text-xl text-start w-full">Community Status</h2>
+                <h2 class="font-semibold text-xl text-start w-full">Tile Status</h2>
                 <div class="flex gap-[16px] justify-start">
                     <div class="w-1/2">
                         <SelectField v-if="locations"
@@ -355,11 +421,9 @@
     </div>
 </template>
 <script setup>
-    import { Form, useForm } from 'vee-validate';
+    import { Form } from 'vee-validate';
     import { usePageTitleStore } from '~/stores/pageTitle';
     import { usePaginationStore } from '~/stores/pagination';
-    import { useFilterStore } from '~/stores/filters';
-    import { useSidebarStore } from '~/stores/sidebar';
     import { useRoute } from 'vue-router';
     import { onMounted } from 'vue';
 
@@ -405,8 +469,8 @@
 
 
         // console.log(formattedTitle); // Output: 'Featured House & Lots'
-        pageTitle.setTitle(`Add ${formattedTitle.value}`);
-        pageTitle.setBreadcrumbs(['Properties', formattedTitle.value, 'Add Community']);
+        pageTitle.setTitle(`Add Tile Entry`);
+        pageTitle.setBreadcrumbs(['Tiles Directory', 'Add Tile Entry']);
 
         pageTitle.setPageFrom(formattedTitle.value);
         pageTitle.setPageFromRoute('/properties/' + propertyType);
@@ -422,19 +486,74 @@
 
     const isEnabled = ref(true);
     const nuxtApp = useNuxtApp();
+    const brands = ref(null);
+    const types = ref(null);
+    const purposes = ref(null);
+    const sizes = ref(null);
+    const finishes = ref(null);
+    const features = ref(null);
+    const colors = ref(null);
+    const applications = ref(null);
     const locations = ref(null);
     const status = ref(null);
     
     const fetchRecords = async () => {
         try {
             const location_response = await nuxtApp.$axios.get(`/cms/taxonomies/property-locations?all=true`); 
-            const status_response = await nuxtApp.$axios.get(`/cms/taxonomies/property-statuses?all=true`); 
+            const status_response = await nuxtApp.$axios.get(`/cms/taxonomies/property-statuses?all=true`);
+            const brand_response = await nuxtApp.$axios.get(`/cms/taxonomies/brand`);
+            const type_response = await nuxtApp.$axios.get(`/cms/taxonomies/type`); 
+            const purpose_response = await nuxtApp.$axios.get(`/cms/taxonomies/purpose`); 
+            const size_response = await nuxtApp.$axios.get(`/cms/taxonomies/size`); 
+            const finish_response = await nuxtApp.$axios.get(`/cms/taxonomies/finish`); 
+            // const shade_response = await nuxtApp.$axios.get(`/cms/taxonomies/shade`); 
+            const feature_response = await nuxtApp.$axios.get(`/cms/taxonomies/feature`); 
+            const color_response = await nuxtApp.$axios.get(`/cms/taxonomies/color`); 
+            const application_response = await nuxtApp.$axios.get(`/cms/taxonomies/application`); 
+
+
+ 
             // const properties = await nuxtApp.$axios.get(`/cms/properties?page=${pagination.page}
             // &propertyType=${properyType}
             // &location=${filter.value}
             // &sortBy=${sortBy.value}
             // &sortDirection=${sortDirection.value}`); 
-            locations.value = location_response.data.map((record) => ({
+            brands.value = brand_response.data.map((record) => ({
+                value: record.id,
+                label: record.name
+            }));
+
+            types.value = type_response.data.map((record) => ({
+                value: record.id,
+                label: record.name
+            }));
+            
+            purposes.value = purpose_response.data.map((record) => ({
+                value: record.id,
+                label: record.name
+            }));
+
+            sizes.value = size_response.data.map((record) => ({
+                value: record.id,
+                label: record.name
+            }));
+
+            finishes.value = finish_response.data.map((record) => ({
+                value: record.id,
+                label: record.name
+            }));
+
+            features.value = feature_response.data.map((record) => ({
+                value: record.id,
+                label: record.name
+            }));
+
+            colors.value = color_response.data.map((record) => ({
+                value: record.id,
+                label: record.name
+            }));
+            
+            applications.value = application_response.data.map((record) => ({
                 value: record.id,
                 label: record.name
             }));

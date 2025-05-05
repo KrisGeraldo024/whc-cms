@@ -219,6 +219,10 @@ export const useSidebarStore = defineStore('sidebar', {
                                     slug: '/taxonomies/categories/finish',
                                 },
                                 {
+                                    name: 'Shade',
+                                    slug: '/taxonomies/categories/shade',
+                                },
+                                {
                                     name: 'Features',
                                     slug: '/taxonomies/categories/features',
                                 },

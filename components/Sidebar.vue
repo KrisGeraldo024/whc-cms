@@ -1,7 +1,7 @@
 <template>
     <div class="h-full bg-white border border-[1px] border-gray relative z-20" :class="{'min-w-[260px] w-auto' : isSidebarToggled, 'w-[72px]' : !isSidebarToggled}">
         <div class="w-full h-16 border-b-[1px] border-gray px-[24px] flex items-center">
-            <!-- <img src="/suntrust_logo.png" alt="db_logo" class="w-[159px] h-[27px]" :class="{'object-contain' : isSidebarToggled, 'object-cover object-left' : !isSidebarToggled}"> -->
+            <img src="/wh-logo.png" alt="whc_logo" class="w-[159px] h-[56px]" :class="{'object-contain' : isSidebarToggled, 'object-cover object-left' : !isSidebarToggled}">
         </div>
         <div class="w-full h-[calc(100vh-64px)] overflow-auto px-[16px] py-[8px]" @mouseover="handleMouseOver()" @mouseleave="handleMouseLeave()">
             <div v-for="(item, index) in sidebar.links" :key="item" class="h-auto" 
