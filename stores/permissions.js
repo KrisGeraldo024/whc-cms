@@ -106,6 +106,15 @@ export const usePermissionStore = defineStore('permissions', {
                     ]
                 },
                 {
+                    name: 'Clients',
+                    unique: 'clients',
+                    route_name: [
+                        'clients',
+                        'clients-id',
+                        'clients-create'
+                    ]
+                },
+                {
                     name: 'Awards',
                     unique: 'awards',
                     route_name: [

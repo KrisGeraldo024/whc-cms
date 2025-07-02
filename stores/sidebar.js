@@ -54,7 +54,7 @@ export const useSidebarStore = defineStore('sidebar', {
                     // ],
                 },
                 {
-                    name: 'News and Articles',
+                    name: 'Tiles Resources',
                     slug: '/news-and-articles',
                     unique: 'news-and-articles',
                     icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -103,7 +103,7 @@ export const useSidebarStore = defineStore('sidebar', {
             //         ],
             //     },
                 {
-                    name: 'Awards',
+                    name: 'Clients and Awards',
                     slug: '/awards',
                     unique: 'awards',
                     icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
@@ -115,6 +115,11 @@ export const useSidebarStore = defineStore('sidebar', {
                             name: 'Awards',
                             slug: '/awards',
                             unique: 'awards',
+                        },
+                        {
+                            name: 'Clients',
+                            slug: '/clients',
+                            unique: 'clients',
                         },
                     ],
                 },

@@ -1,13 +1,12 @@
 <template>
     <div class="relative w-full flex flex-col gap-y-[15px] bg-offwhite overflow-y-auto">
-        <div class="relative w-full flex p-[16px] items-end bg-white gap-[24px]">
-            <form @submit="search" class="gap-y-[8px] w-full">
+        <div class="relative w-full flex p-[16px] justify-between items-center bg-white">
+            <form @submit="onSubmit" class="gap-y-[8px] w-full">
                 <label for="search" class="text-base font-medium text-black/70">
-                    Search for an Article Title or Article Category
+                    Search for Client name
                 </label>
                 <Search v-model="keyword" class="w-full"/>
             </form>
-            <Filters v-if="filters" :filters="filters" v-model="filterValues" @update:modelValue="updateValue"/>
             <!-- <div class="gap-y-[8px] w-[143px]">
                 <label for="filter" class="text-base font-medium text-black/70">
                     Filter by Location
@@ -18,39 +17,37 @@
         
         <div class="p-[16px] gap-y-[20px] overflow-y-auto  gap-[16px] flex flex-col">
             <div class="flex justify-between items-center w-full">
-                <p v-if="articles && articles.data" class="text-black font-medium text-base">
+                <p v-if="clients && clients.data" class="text-black font-medium text-base">
                     <span class="text-black/60">Displaying </span> 
-                    {{ articles.total > 0 ? articles.from : 0 }} {{ articles.total > 0 ? ' - ' +  articles.to : '' }} 
+                    {{ clients.from }} - {{ clients.to }} 
                     <span class="text-black/60">of</span> 
-                    {{ articles.total }} 
+                    {{ clients.total }} 
                     <span class="text-black/60">items</span>
                 </p>
                 <div class="flex gap-[16px] items-center">
-                    <!-- <button type="button" @click="openPopup" class="px-[16px] py-[10px] rounded-[10px] border border-ui-color text-ui-color text-base font-medium transition
-                    hover:bg-dark-ui-color hover:text-white">
-                        Batch Import    
-                    </button> -->
-                    <router-link  :to="`/articles/create`" class="px-[16px] py-[10px] rounded-[10px] bg-ui-color border border-ui-color text-white text-base font-medium transition
+                   
+                    <router-link :to="`/clients/create`" class="px-[16px] py-[10px] rounded-[10px] bg-ui-color border border-ui-color text-white text-base font-medium transition
                     hover:bg-dark-ui-color flex gap-[4px]">
                     <span class="w-[21px] h-[21px]">
                         <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
                         <path fill-rule="evenodd" clip-rule="evenodd" d="M10.5 19.6875C5.42587 19.6875 1.3125 15.5728 1.3125 10.5C1.3125 5.42719 5.42587 1.3125 10.5 1.3125C15.5741 1.3125 19.6875 5.42719 19.6875 10.5C19.6875 15.5728 15.5741 19.6875 10.5 19.6875ZM10.5 0C4.70072 0 0 4.69875 0 10.5C0 16.3012 4.70072 21 10.5 21C16.2993 21 21 16.3012 21 10.5C21 4.69875 16.2993 0 10.5 0ZM14.4375 9.84375H11.1562V6.5625C11.1562 6.20156 10.8629 5.90625 10.5 5.90625C10.1371 5.90625 9.84375 6.20156 9.84375 6.5625V9.84375H6.5625C6.19959 9.84375 5.90625 10.1391 5.90625 10.5C5.90625 10.8609 6.19959 11.1562 6.5625 11.1562H9.84375V14.4375C9.84375 14.7984 10.1371 15.0938 10.5 15.0938C10.8629 15.0938 11.1562 14.7984 11.1562 14.4375V11.1562H14.4375C14.8004 11.1562 15.0938 10.8609 15.0938 10.5C15.0938 10.1391 14.8004 9.84375 14.4375 9.84375Z" fill="#FCFCFC"/>
                         </svg>
                     </span>
-                        Add an Article  
+                        Add Client
                     </router-link>
                 </div>
             </div>
             <table class="min-w-full border-collapse rounded-[10px] overflow-hidden bg-off-white border-separate border-spacing-0 relative z-10 pb-[140px]">
                 <thead>
                     <tr class="h-[40px] bg-white text-black/60 font-medium text-base text-left">
-                        <!-- <th class="px-[24px] py-[8px] rounded-[10px] cursor-pointer flex gap-[8px]" @click="toggleSort('order')"> Seq.
+                        <th class="px-[24px] py-[8px] rounded-[10px] cursor-pointer flex gap-[8px]" @click="toggleSort('order')"> Seq.
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 width="18"
                                 height="18"
                                 viewBox="0 0 18 18"
                                 fill="none">
+                                <!-- Upward triangle -->
                                 <path
                                     d="M5.22216 7.34717L8.57972 3.1633C8.87841 2.7763 9.37059 2.7763 9.66985 3.1633L13.0274 7.34717C13.3261 7.73417 13.1855 8.0503 12.6758 8.0503H5.57428C5.06466 8.0503 4.92403 7.73361 5.22272 7.34717H5.22216Z"
                                     :fill="
@@ -59,6 +56,7 @@
                                             ? '#4B545B'
                                             : '#A6A8AB'
                                     " />
+                                <!-- Downward triangle -->
                                 <path
                                     d="M13.0268 10.6519L9.66928 14.8357C9.3706 15.2227 8.87841 15.2227 8.57916 14.8357L5.2216 10.6519C4.92291 10.2649 5.06353 9.94873 5.57316 9.94873H12.6747C13.1843 9.94873 13.325 10.2654 13.0263 10.6519H13.0268Z"
                                     :fill="
@@ -68,13 +66,10 @@
                                             : '#A6A8AB'
                                     " />
                             </svg>
-                        </th> -->
-                        <th class="px-[24px] py-[8px]">Article Title</th>
-                        <th class="px-[24px] py-[8px]">Category</th>
-                        <!-- <th class="px-[24px] py-[8px]">RFO</th> -->
-                        <th class="px-[24px] py-[8px]">Published</th>
-                        <th class="px-[24px] py-[8px] flex gap-[8px] cursor-pointer"  @click="toggleSort('date')">
-                            Date
+                        </th>
+                        <th class="px-[24px] py-[8px]">Client Name</th>
+                        <th class="px-[24px] py-[8px] flex gap-[8px] cursor-pointer"  @click="toggleSort('updated_at')">
+                            Date Edited
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 width="18"
@@ -101,40 +96,29 @@
                                     " />
                             </svg>
                         </th>
-                        <th class="px-[24px] py-[8px]">Featured</th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody>
-                    <template v-if="articles && articles.data" v-for="(article, index) in articles.data" :key="article.id">
+                    <template v-if="clients && clients.data" v-for="(client, index) in clients.data" :key="client.id">
                         <tr class="h-3"> <!-- Adjust the height as needed -->
                             <td colspan="5"></td> <!-- Empty cell to occupy space -->
                         </tr>
                         <tr class="h-[40px] bg-white text-black font-normal text-base text-left font-light">
-                            <!-- <td class="px-[24px] py-[8px]  text-base font-normal">{{ article.order }}</td> -->
-                            <td class="px-[24px] py-[8px] text-base font-semibold">{{ article.title }}</td>
-                            <td class="px-[24px] py-[8px] text-base font-normal">{{ article.article_category.name }}</td>
-                           
-                            <td class="px-[24px] py-[8px] flex gap-[8px] items-center h-[64px]" :class="{'text-success' : article.enabled, 'text-orange' : !article.enabled}">
+                            <td class="px-[24px] py-[8px]  text-base font-normal">{{ client.order }}</td>
+                            <td class="px-[24px] py-[8px] text-base font-semibold">{{ client.name }}</td>                        
+                             <!-- <td class="px-[24px] py-[8px] flex gap-[8px] items-center h-[64px]" :class="{'text-success' : client.enabled, 'text-orange' : !client.enabled}">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="7" height="8" viewBox="0 0 7 8" 
-                                :class="{'fill-success' : article.enabled, 'fill-orange' : !article.enabled}">
+                                :class="{'fill-success' : client.enabled, 'fill-orange' : !client.enabled}">
                                 <circle cx="3.5" cy="4" r="3.5" />
                                 </svg>
-                                {{ article.enabled ? 'Yes' : 'No' }}
-                            </td>
+                                {{ client.enabled ? 'Yes' : 'No' }}
+                            </td> -->
                             <td class="px-[24px] py-[8px] ">
-                                {{ $moment(article.date).format('MMM DD, YYYY') }}<br>
+                                {{ $moment(client.updated_at ? client.updated_at : client.updated_at).format('MMM DD, YYYY') }}<br>
                                 <span class="text-sm text-black"> <!-- Adjust styling as needed -->
-                                    {{ $moment(article.date).format('hh:mm A') }}
+                                    {{ $moment(client.updated_at).format('hh:mm A') }}
                                 </span>
-                            </td>
-                            <td class="px-[24px] py-[8px] flex gap-[8px] items-center h-[64px]"
-                                :class="{'text-success' : article.featured , 'text-orange' : !article.featured }">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="7" height="8" viewBox="0 0 7 8" 
-                                :class="{'fill-success' : article.featured, 'fill-orange' : !article.featured}">
-                                <circle cx="3.5" cy="4" r="3.5" />
-                                </svg>
-                                {{ article.featured ? 'Yes' : 'No' }}
                             </td>
                             <td class="px-[24px] py-[8px]  relative w-[150px]">
                                 <button @click.stop="toggleMenu(index)">
@@ -169,7 +153,7 @@
                                 <div
                                     v-if="activeMenuIndex === index"
                                     class="absolute bottom-0 left-0 bg-white flex flex-col p-[10px] gap-[10px] rounded-[10px] translate-y-[70%] font-[600] border border-gray z-50">
-                                    <router-link :to="`/articles/${article.id}`"
+                                    <router-link :to="`/clients/${client.id}`"
                                         class="flex items-center gap-[10px] pb-[10px] border-b border-black/30">
                                         <svg
                                             width="22px"
@@ -190,7 +174,7 @@
                                         class="flex items-center gap-[10px] text-[#F12222]"
                                         @click="
                                             openDeletePopup(
-                                                `/cms/articles/${article.id}`
+                                                `/cms/clients/${client.id}`
                                             )
                                         ">
                                         <svg
@@ -214,44 +198,6 @@
             </table> 
         </div>
     </div>
-
-    <PopupForm
-            v-model:show="showPopup"
-            :title=" 'Batch Import'">
-            <Form
-                id="form"
-                @submit="onSubmit">
-            
-                <div class="flex flex-col gap-[8px] mt-[8px]">
-                    <form-fieldsImageHandler
-                    label="Batch Upload"
-                    max="1"
-                    size="5"
-                    acceptedFormats="xlsx|csv|pdf|jpg|jpeg|png|gif|bmp|webp"
-                    :input_payload="{
-                        identifier: 'file',
-                        id: 'file_id',
-                        category: 'file_category',
-                        category_value: 'file',
-                        alt: 'file_alt',
-                    }"
-                    @update:file="handleFileUpdate('file', $event)" />
-                </div>
-                
-
-                <div class="flex gap-[24px] mt-[16px] ml-auto max-w-max">
-                    <button
-                        @click="closePopup"
-                        type="button">
-                        Cancel
-                    </button>
-                    <button
-                        class="px-[16px] py-[10px] bg-ui-color rounded-[10px] text-white">
-                       Import
-                    </button>
-                </div>
-            </Form>
-        </PopupForm>
     
     <PopupDelete
         v-model:show="showDeletePopup"
@@ -262,10 +208,10 @@
 <script setup>
     import { usePageTitleStore } from '~/stores/pageTitle';
     import { usePaginationStore } from '~/stores/pagination';
+    import { useFilterStore } from '~/stores/filters';
     import { useSidebarStore } from '~/stores/sidebar';
     import { useRoute } from 'vue-router';
     import { useAsyncData } from 'nuxt/app'
-    import { Form } from 'vee-validate';
 
     definePageMeta({
         middleware: 'authenticator'
@@ -273,10 +219,9 @@
 
     const pageTitle = usePageTitleStore();
     const pagination = usePaginationStore();
+    const filter = useFilterStore();
     const sidebar = useSidebarStore();
     const route = useRoute();
-    
-    const propertyType = route.params.propertyType; 
 
     
     const formattedTitle = ref('');
@@ -284,81 +229,49 @@
     
     const nuxtApp = useNuxtApp();
     const property = ref(null);
-    const articles = ref(null);
-    const categories = ref(null);
-    const filters = ref(null);
-    const filterValues = reactive({
-        category: '',
-        published: '',
-        featured: '',
-    });
+    const clients = ref(null);
 
-    onMounted( () => {
+    onMounted( async () => {
         pagination.reset();
         
-        fetchRecords();
-        document.addEventListener('click', handleClickOutside);
+        await fetchRecords();
+        const currentPath = route.path; // Get the current path
+        const pathSegments = route.path.split('/'); 
 
-        pagination.reset();
-        pageTitle.setTitle(`Articles`);
-        pageTitle.setBreadcrumbs(['Tiles Resources', 'Articles']);
+        const firstPathSegment = currentPath.split('/')[1]; // Split by '/' and get the first segment after the base
+        
+        if (pathSegments.length > 2) {
+            secondLastSegment.value = pathSegments[pathSegments.length - 1];
+        }
 
-        // pageTitle.setPageFrom('Communities');
-        // pageTitle.setPageFromRoute('/properties/' + propertyType);
+        // formattedTitle.value = secondLastSegment.value
+        //     .replace(/-/g, ' ') // Replace dashes with spaces
+        //     .replace(/\b\w/g, char => char.toUpperCase()); // Capitalize the first letter of each word
+
+        pageTitle.setTitle("Clients");
+        pageTitle.setBreadcrumbs(['Clients', 'Clients List']);
+
+        pageTitle.setPageFrom('');
+        pageTitle.setPageFromRoute('');
         // populateData(sectionData.value);
     });
 
     const fetchRecords = async () => {
         try {
-            // const property_response = await nuxtApp.$axios.get(`/cms/properties/${useRoute().params.id}`);
-            // property.value = property_response.data.record.name; 
-            const categories_response = await nuxtApp.$axios.get(`/cms/taxonomies/article-categories?all=true`);
-            const article_response = await nuxtApp.$axios.get(`/cms/articles?page=${pagination.page}
+
+            const clients_response = await nuxtApp.$axios.get(`/cms/clients?page=${pagination.page}
+            &type=${route.params.type}
             &sortBy=${sortBy.value}
             &sortDirection=${sortDirection.value}
-            &keyword=${keyword.value}
-            &category=${filterValues.category}
-            &published=${filterValues.published === '' ? '' :  (filterValues.published === 'Published' ? 1 : 0)}
-            &featured=${filterValues.featured === '' ? '' :  (filterValues.featured === 'Featured' ? 1 : 0)}`); 
+            &keyword=${keyword.value}`); 
             // locations.value = location_response.data.map((record) => record.name);
-            articles.value = article_response.data.records;
+            clients.value = clients_response.data.records;
 
-            categories.value = categories_response.data.map((record) => ({
-                name: record.name,
-                value: record.name
-            }))
-            filters.value = [];
-            filters.value.push(
-            {
-                name: 'category',
-                title: 'Categories',
-                options: [...categories.value],
-                placeholder: 'Choose a Category'
-            },
-            {
-                name : 'published',
-                title: 'Publish Status',
-                options: [
-                    { name: 'Published', value: 1 },
-                    { name: 'Unpublished', value: 0 },
-                ],  
-                placeholder: 'Choose a Status'
-            }, {
-                name : 'featured',
-                title: 'Featured Status',
-                options: [
-                    { name: 'Featured', value: 1 },
-                    { name: 'Not Featured', value: 0 },
-                ],
-                placeholder: 'Choose a Status'
-            });
-            // console.log(filters.value);
-            pagination.setTotalPages(articles.value.last_page);
+            pagination.setTotalPages(clients_response.data.records.last_page);
         } catch (error) {
             console.error('Error:', error);
         }
     };
-
 
     
     const sortBy = ref('updated_at');
@@ -376,26 +289,6 @@
     };
 
     
-    const handleFileUpdate = (field, file) => {
-        const idx = parseInt(field.match(/\d+$/), 10); // Get the number from the field string
-        const fieldName = field.replace(/\d+$/, ""); // Remove the number to get the base field name
-
-        if (!Number.isNaN(idx)) {
-            formData[fieldName][idx] = file;
-            console.log(formData[fieldName]);
-        } else {
-            
-            formData[fieldName] = file; // Updates the specific image field
-            
-            console.log(field);
-        }
-    };
-
-    const formData = reactive({
-        file: []
-    });
-
-    
     const showPopup = ref(false);
     const showDeletePopup = ref(false);
     const deletePath = ref('');
@@ -407,15 +300,12 @@
         activeMenuIndex.value = null;
     };
 
-    const openPopup = (record = null) => {
-        showPopup.value = true;
-        activeMenuIndex.value = null;
-    };
-
-    const closePopup = () => {
-        showPopup.value = false;
-        editingRecord.value = null;
-    };
+    // const openPopup = (record = null) => {
+    //     console.log(record);
+    //     editingRecord.value = record;
+    //     showPopup.value = true;
+    //     activeMenuIndex.value = null;
+    // };
 
     
     const toggleMenu = index => {
@@ -430,73 +320,16 @@
 
 
     const keyword = ref('');
-    const search = () => {
+    const onSubmit = () => {
         fetchRecords();
-    }
-    const onSubmit = async () => {
-        let form_data = new FormData(document.getElementById('form'));
-
-        formData.file.forEach((file) => {
-            form_data.append('file[]', file);
-        })
-
-        try {
-                const response = await nuxtApp.$axios.post(`/cms/batch-upload?query=articles`, form_data , {
-                    headers: {
-                        'Content-Type': 'multipart/form-data',
-                    },
-                }).then((response) => {
-                    const record = response.data.record;
-                    route.refresh();
-                    // useRouter().push(`/articles/${record.id}`);
-                    nuxtApp.$toast.success('Articles imported successfully!');
-                }); 
-    
-            } catch (error) {
-                console.error('Error:', error.response.data.message);
-                // nuxtApp.$toast.error(error.response.data.message);
-            }
     };
 
     watch(keyword, () => {
-        // console.log(keyword.value);
+        fetchRecords();
+    });
+    watch(pagination.page, () => {
         fetchRecords();
     });
 
-    const updateValue = (value) => {
-        if (value) {
-            fetchRecords();
-        } else {
-            filterValues.category = '';
-            filterValues.published = '';
-            filterValues.featured = '';
-            fetchRecords();
-        }
-    }
-    // watch(filterValues, () => {
-    //     console.log(filterValues);
-    //     fetchRecords();
-    // })
 
-    watch(() => pagination.page, (newPage) => {
-        fetchRecords(); // Call the API whenever the page changes
-    })
-
-    onUnmounted(() => {
-    document.removeEventListener('click', handleClickOutside);
-});
-
-
-    // const { data: propertyData, error, status: isLoading } = useAsyncData(`property-${useRoute().params.id}`, async () => {
-    //     try {
-    //         // Use Axios to make the GET request
-    //         const res = await nuxtApp.$axios.get(`cms/properties/${useRoute().params.id}`);
-
-    //         // Axios automatically parses JSON, so we just need to return the record
-    //         return res.data.record; // Assuming 'record' is the field you need
-    //     } catch (err) {
-    //         console.error('Error fetching section data:', err);
-    //         throw new Error('Failed to fetch data');
-    //     }
-    // })
 </script>
