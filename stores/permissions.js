@@ -16,8 +16,8 @@ export const usePermissionStore = defineStore('permissions', {
                     route_name: ['condoSection_id', 'houseSection_id', 'metadata_id']
                 },
                 {
-                    name: "Page Homebuyer's Guide",
-                    unique: 'pages-homebuyers-guide',
+                    name: "Page Look Books",
+                    unique: 'pages-look-books',
                     route_name: ['buyerSection_id', 'steps_id', 'metadata_id']
                 },
                 {
@@ -69,8 +69,8 @@ export const usePermissionStore = defineStore('permissions', {
                     name: 'Properties',
                     unique: 'properties',
                     route_name: [
-                        'properties-propertyType', 
-                        'properties-propertyType-id-amenities-amenity_id', 
+                        'properties-propertyType',
+                        'properties-propertyType-id-amenities-amenity_id',
                         'properties-propertyType-id-amenities-create',
                         'properties-propertyType-id-amenities',
                         'properties-propertyType-id-landmarks-landmark_id',
