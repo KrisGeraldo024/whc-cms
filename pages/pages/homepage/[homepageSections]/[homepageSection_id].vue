@@ -6,21 +6,21 @@
                 <h2 class="font-semibold text-xl text-start w-full">{{ `${formattedTitle} Information` }}</h2>
                 <TextField v-model="formData.title" name="title" :label="`${formattedTitle} Header Title`"
                     placeholder="Enter title" :rules="'required|max:60'" :hasErrors="hasErrors" />
-                <TextField v-if="
+                <label for="description" class="text-base font-medium text-black/70">Page Description </label>
+                <textarea v-if="sectionData && (sectionData.name === 'Top Banner' || sectionData.name === 'Payment Channel CTA' || sectionData.name === 'Get a Quote CTA')"
+                    class="outline-none border-[1px] border-gray rounded-[10px] p-[16px] text-base font-normal placeholder:text-black/40 focus:border-ui-color bg-white h-[150px]"
+                    v-model="formData.description" name="description" :label="`${formattedTitle} Header Description`"
+                    placeholder="Enter description" :rules="'required|max:500'" :hasErrors="hasErrors"></textarea>
+                <!-- <TextField v-if="
                     sectionData &&
                     (sectionData.name === 'Top Banner' || sectionData.name === 'Payment Channel CTA')"
                     v-model="formData.description" name="description" :label="`${formattedTitle} Header Description`"
-                    placeholder="Enter description" :rules="'required|max:60'" :hasErrors="hasErrors" />
-                <TextField v-if="
-                    sectionData &&
-                    (sectionData.name === 'Top Banner' || sectionData.name === 'Payment Channel CTA')"
-                    v-model="formData.description" name="description" :label="`${formattedTitle} Header Description`"
-                    placeholder="Enter description" :rules="'required|max:60'" :hasErrors="hasErrors" />
+                    placeholder="Enter description" :rules="'required|max:60'" :hasErrors="hasErrors" /> -->
                 <!-- <TextInput v-model="formData.title" name="title" :label="`${formattedTitle} Header Copy`" max="50" placeholder="Enter banner title"/> -->
-                <HowToAdd
+                <!-- <HowToAdd
                     v-if="sectionData && (sectionData.name === 'Featured House & Lots' || sectionData.name === 'Featured Condominiums')"
                     :title="formattedTitle"
-                    :link="`/properties/${sectionData.name === 'Featured House & Lots' ? 'house-and-lots' : 'condominiums'}`" />
+                    :link="`/properties/${sectionData.name === 'Featured House & Lots' ? 'house-and-lots' : 'condominiums'}`" /> -->
             </div>
             <div v-if="
                 sectionData &&

@@ -124,6 +124,15 @@ export const usePermissionStore = defineStore('permissions', {
                     ]
                 },
                 {
+                    name: 'Testimonials',
+                    unique: 'testimonials',
+                    route_name: [
+                        'testimonials',
+                        'testimonials-id',
+                        'testimonials-create'
+                    ]
+                },
+                {
                     name: 'Careers',
                     unique: 'careers',
                     route_name: [
@@ -154,6 +163,11 @@ export const usePermissionStore = defineStore('permissions', {
                         'taxonomies-careers-job-locations',
                         'taxonomies-contact-us-after-sales-officers',
                         'taxonomies-contact-us-inquiry-types-id',
+
+
+
+
+                         
                         'taxonomies-contact-us-inquiry-types-create',
                         'taxonomies-contact-us-inquiry-types',
                         'taxonomies-contact-us-office-locations',
@@ -162,7 +176,8 @@ export const usePermissionStore = defineStore('permissions', {
                         'taxonomies-properties-property-locations',
                         'taxonomies-properties-property-statuses',
                         'taxonomies-properties-brands',
-                        'taxonomies-sellers-priority-locations'
+                        'taxonomies-sellers-priority-locations',
+                        'taxonomies-testimonials'
                     ]
                 },
                 {

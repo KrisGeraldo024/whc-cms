@@ -1,26 +1,21 @@
 <template>
     <div class="relative w-full p-[16px] bg-offwhite flex flex-col gap-[16px] overflow-y-auto mb-[32px]">
-        <Form id="form" @submit="submit()" class="w-full gap-[16px] flex flex-col">
+        <Form v-if="awardData" id="form" @submit="submit()" class="w-full gap-[16px] flex flex-col">
             <div class="bg-white p-[16px] flex flex-col gap-[16px] rounded-[10px] w-full">
-                <h2 class="font-semibold text-xl text-start w-full">Award Information</h2>
+                <h2 class="font-semibold text-xl text-start w-full">Testimonial Information</h2>
                 <div class="grid grid-cols-1 gap-[16px]">
-                    <TextField label="Award Name" name="name" placeholder="e.g. Award ABC" :rules="'required|max:100'"
+                    <TextField label="Name" name="name" v-model="formData.name" placeholder="e.g. Testimonial ABC"
+                        :rules="'required|max:100'" optionalMessage="Max 100 characters" />
+                </div>
+                <div class="grid grid-cols-1 gap-[16px]">
+                    <TextField label="Designation" name="position" v-model="formData.position" placeholder="e.g. e.g Homeowner, Architect" :rules="'required|max:100'"
                         optionalMessage="Max 100 characters" />
                 </div>
                 <div class="grid grid-cols-1 gap-[16px]">
-                    <TextField class="col-span-3" label="Awarding Body" name="awarding_body"
-                        placeholder="e.g. Awarding Body ABC" :rules="'required|max:100'"
-                        optionalMessage="Max 100 characters" />
+                    <TextField class="col-span-3" label="Testimonial" name="description" v-model="formData.description"
+                        placeholder="e.g. Testimonial Content goes here" :rules="'required|max:255'"
+                        optionalMessage="Max 255 characters" />
                 </div>
-
-                <hr class="h-[1px] w-full border-gray">
-                <ImageHandler label="Award Image" max="1" size="5" :dimension="{ width: 125, height: 90 }" :input_payload="{
-                    identifier: 'main_image',
-                    id: 'main_image_id',
-                    category: 'main_image_category',
-                    category_value: 'main_image',
-                    alt: 'main_image_alt',
-                }" @update:file="handleFileUpdate(`main_image`, $event)" />
             </div>
 
             <div class="flex self-end gap-[16px]">
@@ -43,6 +38,7 @@ definePageMeta({
     middleware: 'authenticator'
 })
 
+
 const ImageHandler = defineAsyncComponent(() => {
     return import('@/components/form-fields/ImageHandler.vue')
 })
@@ -58,20 +54,38 @@ const secondLastSegment = ref('');
 const isClient = ref(false);
 
 const formData = reactive({
-    enabled: 0,
-    main_image: []
+    enabled: 1,
+    name: '',
+    position: '',
+    description: '',
 })
+
+const main_image = ref([]);
 
 onMounted(() => {
 
-    pageTitle.setTitle(`Add Award`);
-    pageTitle.setBreadcrumbs(['Awards', 'Awards List', 'Add Award']);
+    pageTitle.setTitle(`Edit Testimonial`);
+    pageTitle.setBreadcrumbs(['Testimonials', 'Testimonials List', 'Edit Testimonial']);
 
-    pageTitle.setPageFrom('Awards List');
-    pageTitle.setPageFromRoute('/awards');
+    pageTitle.setPageFrom('Testimonials List');
+    pageTitle.setPageFromRoute('/testimonials');
     isClient.value = true;
+    fetchRecords();
     // populateData(sectionData.value);
 });
+
+const awardData = ref(null);
+
+const fetchRecords = async () => {
+    try {
+        const award_response = await nuxtApp.$axios.get(`/cms/testimonials/${id}`);
+        awardData.value = award_response.data.record;
+        populateData(awardData.value);
+        // properties.value = properties.data.records;
+    } catch (error) {
+        console.error('Error:', error);
+    }
+};
 
 const handleFileUpdate = (field, file) => {
     const idx = parseInt(field.match(/\d+$/), 10); // Get the number from the field string
@@ -91,27 +105,31 @@ const handleFileUpdate = (field, file) => {
 const submit = async () => {
     const formElement = document.getElementById('form');
     const form_data = new FormData(formElement);
-
-    formData.main_image.forEach((file, index) => {
-        form_data.append(`main_image[]`, file)
-    });
-    form_data.append('enabled', formData.enabled ? 1 : 0)
+    form_data.append('enabled', formData.enabled ? 1 : 0);
+    form_data.append('_method', 'PATCH');
 
     try {
-        const response = await nuxtApp.$axios.post(`/cms/awards`, form_data, {
+        const response = await nuxtApp.$axios.post(`/cms/testimonials/${id}`, form_data, {
             headers: {
                 'Content-Type': 'multipart/form-data',
             },
         }).then((response) => {
             const record = response.data.record;
-
-            nuxtApp.$toast.success('Award created successfully!');
-            useRouter().push(`/awards/${record.id}`);
+            populateData(record);
+            // useRouter().push(`/testimonials/${record.id}`);
+            nuxtApp.$toast.success('Testimonial updated successfully!');
         });
 
     } catch (error) {
         console.error('Error:', error);
     }
+}
+
+const populateData = (data) => {
+    formData.name = data.name;
+    formData.position = data.position;
+    formData.description = data.description;
+    formData.enabled = Number(data.enabled) ? 1 : 0;
 }
 
 </script>

@@ -120,8 +120,26 @@ export const useSidebarStore = defineStore('sidebar', {
                             name: 'Clients',
                             slug: '/clients',
                             unique: 'clients',
+                            
                         },
                     ],
+                },
+                {
+                    name: 'Testimonials',
+                    slug: '/testimonials',
+                    unique: 'testimonials',
+                    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+  <path d="M12 20H21" stroke="#2A2A2A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M16.5 3.5C16.7652 3.23478 17.1095 3.08755 17.4701 3.08755C17.8307 3.08755 18.175 3.23478 18.4402 3.5L20.5 5.55978C20.7652 5.82502 20.9125 6.16934 20.9125 6.52993C20.9125 6.89053 20.7652 7.23485 20.5 7.50009L7 21L3 22L4 18L16.5 5.5V5.5Z" stroke="#2A2A2A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>`
+,
+                    // subs: [
+                    //     {
+                    //         name: 'Testimonials',
+                    //         slug: '/testimonials',
+                    //         unique: 'testimonials',
+                    //     },
+                    // ]
                 },
         //         {
         //             name: 'Careers',
@@ -265,24 +283,8 @@ export const useSidebarStore = defineStore('sidebar', {
                         // },
                         {
                             name: 'Contact Us',
-                            subs: [
-                                {
                                     name: 'Inquiry Types & Emails',
                                     slug: '/taxonomies/contact-us/inquiry-types',
-                                },
-                                {
-                                    name: 'After Sales Officers',
-                                    slug: '/taxonomies/contact-us/after-sales-officers',
-                                },
-                                {
-                                    name: 'Office Locations',
-                                    slug: '/taxonomies/contact-us/office-locations',
-                                },
-                                {
-                                    name: 'Platform Names',
-                                    slug: '/taxonomies/contact-us/referral-types',
-                                },
-                            ],
                         },
                         {
                             name: 'Sellers',
